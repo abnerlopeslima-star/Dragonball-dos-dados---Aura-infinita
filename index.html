@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Bobby – Técnico de Segurança</title>
+<!-- PeerJS para Multiplayer P2P sem banco de dados -->
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<style>
+:root{--bg:#e8ecf4;--fg:#111827;--card:#fff;--ac:#ff8a00;--bd:#c7cfdd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10131c;--fg:#f3f4f6;--card:#1d2333;--bd:#33405c}}
+:root[data-theme="dark"]{--bg:#10131c;--fg:#f3f4f6;--card:#1d2333;--bd:#33405c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Arial,sans-serif;display:flex;flex-direction:column;align-items:center;padding:8px}
+.wrap{position:relative;width:100%;max-width:800px}canvas{width:100%;display:block;border-radius:10px;border:2px solid var(--bd);background:#000;touch-action:none}
+#o{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px;background:radial-gradient(circle at 50% 25%,rgba(45,60,110,.93),rgba(8,10,18,.97));color:#f3f4f6;text-align:center;border-radius:10px;overflow:auto}
+#o h3{margin:0;font-size:1.3rem;color:#ffb300}#o p{margin:2px 0;max-width:560px}.s{opacity:.8;font-size:.9rem}
+#o button{background:linear-gradient(#ffb300,#ff7a00);color:#111;border:0;border-radius:12px;padding:11px 16px;font-size:1rem;font-weight:800;cursor:pointer;max-width:560px;width:100%;box-shadow:0 4px 0 #a34f00;transition:transform .1s}#o button:active{transform:translateY(3px);box-shadow:0 1px 0 #a34f00}#o .opt{text-align:left;color:#fff;display:flex;gap:10px;align-items:center}#o .opt b{background:#0004;border-radius:8px;padding:2px 10px}#o .o0{background:linear-gradient(#38bdf8,#0369a1);box-shadow:0 4px 0 #075985}#o .o1{background:linear-gradient(#c084fc,#7e22ce);box-shadow:0 4px 0 #581c87}#o .o2{background:linear-gradient(#4ade80,#15803d);box-shadow:0 4px 0 #14532d}.card{background:linear-gradient(#232c4d,#171d36);border:2px solid #5b72c0;border-radius:18px;padding:18px;width:min(620px,100%);display:flex;flex-direction:column;gap:10px;box-shadow:0 12px 40px #000b,0 0 30px #3b5bdb55}.card .bar{margin:0 auto}.stats{display:flex;gap:8px;flex-wrap:wrap}.st{flex:1;min-width:90px;border-radius:12px;padding:8px;font-weight:700;color:#fff}.st span{display:block;font-size:1.6rem}
+#o button:hover{filter:brightness(1.1)}.bar{width:min(380px,90%);height:16px;background:#444;border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#f43f5e,#facc15,#4ade80)}
+.letter{background:#fffbe6;color:#222;padding:14px;border-radius:6px;max-width:460px;font-family:Georgia,serif}
+#t{display:none;gap:8px;margin-top:8px;width:100%;max-width:800px;justify-content:space-between}#t button{flex:1;font-size:1.6rem;padding:14px;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--fg);user-select:none;touch-action:none}
+@media (pointer:coarse){#t{display:flex}}
+small{margin-top:6px;opacity:.75}#pz{position:absolute;right:8px;top:68px;width:40px;height:40px;border-radius:10px;border:2px solid #5b72c0;background:#16213bdd;color:#fff;font-size:1.1rem;cursor:pointer}#o input{padding:10px;border-radius:10px;border:2px solid #5b72c0;background:#0f172a;color:#fff;font-size:1rem;text-align:center;width:100%;max-width:560px}.k{display:inline-block;background:#e2e8f0;color:#111;border-radius:6px;padding:0 8px;margin:1px;box-shadow:0 2px
