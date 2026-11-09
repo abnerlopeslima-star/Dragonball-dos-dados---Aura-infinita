@@ -1,6 +1,4 @@
 <!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Bobby – Técnico de Segurança</title>
-<!-- PeerJS para Multiplayer P2P sem banco de dados -->
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <style>
 :root{--bg:#e8ecf4;--fg:#111827;--card:#fff;--ac:#ff8a00;--bd:#c7cfdd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10131c;--fg:#f3f4f6;--card:#1d2333;--bd:#33405c}}
@@ -15,4 +13,34 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 .letter{background:#fffbe6;color:#222;padding:14px;border-radius:6px;max-width:460px;font-family:Georgia,serif}
 #t{display:none;gap:8px;margin-top:8px;width:100%;max-width:800px;justify-content:space-between}#t button{flex:1;font-size:1.6rem;padding:14px;border-radius:12px;border:2px solid var(--bd);background:var(--card);color:var(--fg);user-select:none;touch-action:none}
 @media (pointer:coarse){#t{display:flex}}
-small{margin-top:6px;opacity:.75}#pz{position:absolute;right:8px;top:68px;width:40px;height:40px;border-radius:10px;border:2px solid #5b72c0;background:#16213bdd;color:#fff;font-size:1.1rem;cursor:pointer}#o input{padding:10px;border-radius:10px;border:2px solid #5b72c0;background:#0f172a;color:#fff;font-size:1rem;text-align:center;width:100%;max-width:560px}.k{display:inline-block;background:#e2e8f0;color:#111;border-radius:6px;padding:0 8px;margin:1px;box-shadow:0 2px
+small{margin-top:6px;opacity:.75}#pz{position:absolute;right:8px;top:68px;width:40px;height:40px;border-radius:10px;border:2px solid #5b72c0;background:#16213bdd;color:#fff;font-size:1.1rem;cursor:pointer}#o input{padding:10px;border-radius:10px;border:2px solid #5b72c0;background:#0f172a;color:#fff;font-size:1rem;text-align:center;width:100%}.k{display:inline-block;background:#e2e8f0;color:#111;border-radius:6px;padding:0 8px;margin:1px;box-shadow:0 2px 0 #64748b;font-weight:800}
+</style></head><body>
+<div class="wrap"><canvas id="c" width="800" height="450"></canvas><button id="pz" title="Pausar (P)">⏸</button><div id="o"></div></div>
+<div id="t"><button id="bl">◀</button><button id="br">▶</button><button id="bj">⤒</button><button id="bx">🧯</button><button id="bc">💥</button></div>
+<small>Setas/A-D para andar • Espaço/W/↑ para pular • Pise nos inimigos • X: espuma 🧯 • C: onda de choque 💥 • Responda com A/B/C ou 1/2/3 • P/Esc: pausa</small>
+<script>
+const C=document.getElementById('c'),g=C.getContext('2d'),W=800,H=450,GY=380,$=id=>document.getElementById(id),O=$('o');
+const show=h=>{O.innerHTML='<div class="card">'+h+'</div>';keys.l=keys.r=keys.j=keys.x=keys.c=0;O.style.display='flex'},hide=()=>O.style.display='none';
+const Q=[[
+'Funcionário na marcenaria sem proteção para os olhos. Dados: 62% das lesões oculares ocorreram sem óculos. Qual EPI?|Luvas de couro|Óculos de proteção|Capacete|1|Partículas voam nos olhos; óculos evitam a lesão.',
+'Operador de esmerilhadeira exposto a 95 dB. O que fornecer?|Protetor auricular|Máscara PFF2|Botina|0|Acima de 85 dB exige proteção auditiva.',
+'Funcionário carrega peças pesadas de chinelo. EPI correto?|Meia grossa|Tênis comum|Botina com biqueira|2|A biqueira protege contra queda de objetos.',
+'Quem deve fornecer o EPI, sem custo, ao trabalhador?|O funcionário|A empresa|O sindicato|1|A NR-6 obriga o empregador a fornecer gratuitamente.'],[
+'A partir de qual altura o trabalho é considerado "em altura" (NR-35)?|1,0 m|2,0 m|5,0 m|1|NR-35: acima de 2 metros do nível inferior.',
+'Pintor trabalhando a 6 m sem proteção. Qual EPI essencial?|Luvas|Capacete apenas|Cinto paraquedista com trava-quedas|2|Previne a queda e limita o impacto.',
+'Dados: 40% das quedas ocorreram sem linha de vida. Prioridade?|Instalar linha de vida|Comprar mais escadas|Reduzir pausas|0|Ataque a causa mais frequente.',
+'Antes de subir no andaime, o técnico deve:|Subir rápido|Não olhar para baixo|Emitir PT e inspecionar o andaime|2|Permissão de Trabalho e inspeção são obrigatórias.'],[
+'Extintor de água em equipamento elétrico energizado?|Pode, sem problemas|Não, risco de choque|Só com mangueira|1|Água conduz eletricidade.',
+'Extintor para incêndio em líquidos inflamáveis (classe B)?|Água|Pó químico ou CO₂|Areia molhada|1|Água espalha o líquido em chamas.',
+'Extintor sem lacre e manômetro no vermelho. O que fazer?|Deixar no lugar|Pintar o ponteiro|Retirar para recarga e substituir|2|Equipamento irregular não protege ninguém.',
+'Dados: 8 de 10 extintores estão vencidos. Qual % está irregular?|8%|80%|18%|1|8 ÷ 10 = 0,8 = 80%.'],[
+'Acima de qual nível de ruído (8 h) o controle é exigido?|85 dB|60 dB|120 dB|0|Limite de tolerância: 85 dB para 8 h.',
+'Manipulação de ácidos: qual luva?|Algodão|Nitrílica ou PVC (química)|Nenhuma|1|Luvas químicas resistem à corrosão.',
+'Poeira fina de cimento no ar. EPI respiratório?|Lenço|Óculos|Respirador PFF2|2|PFF2 filtra partículas finas.',
+'Acidentes: Solda 12, Pintura 20, Corte 8. Qual % é da Pintura?|20%|40%|50%|2|20 ÷ 40 = 50%.'],[
+'Acidente com afastamento: qual documento a empresa emite?|Nota fiscal|CAT – Comunicação de Acidente de Trabalho|Holerite|1|A CAT é obrigatória.',
+'CIPA significa:|Comissão Interna de Prevenção de Acidentes|Central de Inspeção Predial|Controle Interno de Pessoal|0|Atua na prevenção dentro da empresa.',
+'Na hierarquia de controle, o que vem ANTES do EPI?|Multa|Medidas coletivas (EPC)|Nada|1|Priorize eliminar o risco e usar EPC.',
+'5 acidentes em 100 funcionários. Qual a taxa?|5%|50%|0,5%|0|5 ÷ 100 = 5%.'],[
+'O que significa EPI?|Equipamento de Proteção Individual|Equipamento Padrão Industrial|Estudo de Prevenção Interna|0|Protege o trabalhador contra riscos.',
+'Qual norma regulamenta os EPIs?|NR-35|NR-6|NR-10|1|NR-6
